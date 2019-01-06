@@ -36,6 +36,8 @@ def index():
 @app.route('/post_msg', methods=['POST'])
 def post_msg():
     save_msg(request.json['text'])
+    if current_client:
+        current_client.emit('outter_space_msg', request.json['text'])
     return "Message saved. Thanks!"
 
 
