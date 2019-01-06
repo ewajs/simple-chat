@@ -8,7 +8,7 @@ var submit = document.getElementById("submit");
 var reload = document.getElementById("reload");
 var messageInput = document.getElementById("messageInput");
 
-socket.on("server_message", data => {
+socket.on("outer_space_msg", data => {
   console.log(data);
 });
 
