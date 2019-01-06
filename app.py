@@ -16,8 +16,7 @@ from message_algorithms import save_msg, get_db
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-current_client = None
-
+clients = []
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -27,10 +26,18 @@ def close_connection(exception):
 
 
 @socketio.on('connect')
-def on_connect():
-    print(f"Client registered: {request.namespace}")
-    current_client = request.namespace
+def handle_connect():
+    print('Client connected')
+    clients.append(request.sid)
 
+@socketio.on('disconnect')
+def handle_disconnect():
+    print('Client disconnected')
+    clients.remove(request.sid)
+
+def send_message_to_client(client_id, data):
+    socketio.emit('outer_space_msg', data, room=client_id)
+    print('sending message "{}" to client "{}".'.format(data, client_id))
 
 @app.route('/')
 def index():
@@ -41,10 +48,9 @@ def index():
 def post_msg():
     print("Posted message")
     save_msg(request.json['text'])
-    import pdb
-    pdb.set_trace()
-    if current_client:
-        current_client.emit('outer_space_msg', request.json['text'])
+    if clients:
+        send_message_to_client(clients[0], request.json['text'])
+
     return "Message saved. Thanks!"
 
 
