@@ -1,6 +1,6 @@
 import datetime
 import json
-from flask import Flask, g, jsonify, request
+from flask import Flask, g, jsonify, request, render_template
 import sqlite3
 
 
@@ -24,8 +24,8 @@ def close_connection(exception):
 
 
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def index():
+    return render_template('index.html')
 
 
 @app.route('/post_msg', methods=['POST'])
