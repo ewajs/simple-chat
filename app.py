@@ -46,7 +46,11 @@ def get_history():
 
 @socketio.on('post_message')
 def handle_message(message: dict):
-    save_msg(message.get('text'))
+    try:
+        save_msg(message.get('text'))
+        return "message saved! "
+    except Exception as e:
+        return "An unexpected error occurred, ¯\_(ツ)_/¯"
 
 
 if __name__ == '__main__':
