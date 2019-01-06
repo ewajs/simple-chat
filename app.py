@@ -18,15 +18,19 @@ socketio = SocketIO(app)
 
 current_client = None
 
+
 @app.teardown_appcontext
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
+
 @socketio.on('connect')
 def on_connect():
+    print(f"Client registered: {request.namespace}")
     current_client = request.namespace
+
 
 @app.route('/')
 def index():
@@ -35,9 +39,12 @@ def index():
 
 @app.route('/post_msg', methods=['POST'])
 def post_msg():
+    print("Posted message")
     save_msg(request.json['text'])
+    import pdb
+    pdb.set_trace()
     if current_client:
-        current_client.emit('outter_space_msg', request.json['text'])
+        current_client.emit('outer_space_msg', request.json['text'])
     return "Message saved. Thanks!"
 
 
@@ -46,7 +53,6 @@ def get_history():
     c = get_db().cursor()
     c.execute("SELECT * FROM Message")
     data = c.fetchall()
-    print(data)
     return jsonify(data)
 
 
