@@ -1,10 +1,12 @@
 import datetime
 
 from flask import Flask, request
+from flask_socketio import SocketIO
 import sqlite3
 
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 conn = sqlite3.connect('test.db')
 
@@ -24,4 +26,5 @@ def post_msg():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    # app.run(host='0.0.0.0', port=80, debug=True)
+    socketio.run(app, host='0.0.0.0', port=80, debug=True)

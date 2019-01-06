@@ -7,7 +7,7 @@ import argparse
 
 
 def get_from_server():
-    r = requests.get(SERVER_HOST)
+    r = requests.get(f"http://{SERVER_HOST}/get_history")
     print(type(r))
     print(r.status_code)
     print(r.headers)
