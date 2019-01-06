@@ -49,7 +49,8 @@ def post_msg():
     print("Posted message")
     save_msg(request.json['text'])
     if clients:
-        send_message_to_client(clients[0], request.json['text'])
+        for client in clients:
+            send_message_to_client(client, request.json['text'])
 
     return "Message saved. Thanks!"
 

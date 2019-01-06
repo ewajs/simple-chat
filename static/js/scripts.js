@@ -9,7 +9,7 @@ var reload = document.getElementById("reload");
 var messageInput = document.getElementById("messageInput");
 
 socket.on("outer_space_msg", data => {
-  console.log(data);
+  appendMessage(chatbox, data);
 });
 
 function appendMessage(element, text) {
