@@ -14,8 +14,31 @@
   </head>
   <body>
     <div class="container">
-      <h1>Simple Chat</h1>
-      <p id="result"></p>
+      <div class="row justify-content-md-center">
+        <div class="col"><h1>Simple Chat</h1></div>
+      </div>
+      <div id="chatbox"></div>
+      <div class="row justify-content-md-center">
+        <div class="col-12">
+          <form>
+            <div class="form-group">
+              <label for="messageInput">Message</label>
+              <input
+                type="text"
+                class="form-control"
+                id="messageInput"
+                placeholder="Enter message"
+              />
+            </div>
+          </form>
+          <div class="row">
+            <div class="col">
+              <button class="btn btn-primary" id="submit">Submit</button>
+              <button class="btn btn-success" id="reload">Reload</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
