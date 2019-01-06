@@ -52,8 +52,7 @@ def get_history():
 def handle_message(message: dict):
     try:
         save_msg(message.get('text'))
-        current_client.emmit(message.get('text'))
-        return "message saved! "
+        return 0
     except Exception as e:
         return "An unexpected error occurred, ¯\_(ツ)_/¯"
 
