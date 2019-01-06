@@ -11,21 +11,10 @@ from flask import (
 )
 from flask_socketio import SocketIO
 
-from message_algorithms import save_msg
-
-DATABASE = 'test.db'
+from message_algorithms import save_msg, get_db
 
 app = Flask(__name__)
 socketio = SocketIO(app)
-
-# TODO: This module should not know how to connect to a DB
-
-
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
 
 
 @app.teardown_appcontext
