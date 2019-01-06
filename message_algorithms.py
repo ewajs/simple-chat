@@ -12,11 +12,11 @@ def get_db():
         db = g._database = sqlite3.connect(DATABASE)
     return db
 
+
 def save_msg(msg_text: str):
-    import ipdb; ipdb.set_trace()
     conn = get_db()
     c = conn.cursor()
-    c.execute("INSERT INTO Message (Date, UserID, MessageText) VALUES (?, 0, ?)", 
-              (datetime.utcnow().replace(microsecond=0).isoformat(), 
+    c.execute("INSERT INTO Message (Date, UserID, MessageText) VALUES (?, 0, ?)",
+              (datetime.utcnow().replace(microsecond=0).isoformat(),
                msg_text))
     conn.commit()
