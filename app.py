@@ -16,6 +16,7 @@ from message_algorithms import save_msg, get_db
 app = Flask(__name__)
 socketio = SocketIO(app)
 
+current_client = None
 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -23,6 +24,9 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
+@socketio.on('connect')
+def on_connect():
+    current_client = request.namespace
 
 @app.route('/')
 def index():
@@ -48,6 +52,7 @@ def get_history():
 def handle_message(message: dict):
     try:
         save_msg(message.get('text'))
+        current_client.emmit(message.get('text'))
         return "message saved! "
     except Exception as e:
         return "An unexpected error occurred, ¯\_(ツ)_/¯"
