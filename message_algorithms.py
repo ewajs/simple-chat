@@ -1,3 +1,4 @@
+import os
 import sqlite3
 from datetime import datetime
 
@@ -7,6 +8,8 @@ DATABASE = 'test.db'
 
 
 def get_db():
+    if not os.path.isfile(DATABASE):
+        create_database()
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
@@ -20,3 +23,14 @@ def save_msg(msg_text: str):
               (datetime.utcnow().replace(microsecond=0).isoformat(),
                msg_text))
     conn.commit()
+
+def create_database():
+    db = sqlite3.connect(DATABASE)
+    db.cursor().execute("""CREATE TABLE Message (
+        MessageID INTEGER PRIMARY KEY,
+        Date TEXT NOT NULL,
+        UserID INTEGER NOT NULL,
+        MessageText TEXT NOT NULL
+        )""")
+    db.commit()
+    db.close()
